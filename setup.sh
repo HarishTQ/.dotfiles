@@ -61,8 +61,35 @@ installExtensionManager(){
 }
 
 removeSnap(){
-	bash -c "$(curl -fsSL https://raw.githubusercontent.com/BryanDollery/remove-snap/main/remove-snap.sh)"
-	sudo apt purge snapd
+	sudo snap remove --purge firefox
+	sudo snap remove --purge snap-store
+	sudo snap remove --purge gnome-3-38-2004
+	sudo snap remove --purge gtk-common-themes
+	sudo snap remove --purge snapd-desktop-integration
+	sudo snap remove --purge bare
+	sudo snap remove --purge core20
+	sudo snap remove --purge snapd
+	sudo apt remove --autoremove snapd
+	rm -rf ~/snap
+	sudo rm -rf /snap
+	sudo rm -rf /var/snap
+	sudo rm -rf /var/lib/snapd
+}
+
+installBrave(){
+	sudo apt install curl
+
+	sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+
+	echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+
+	sudo apt update
+
+	sudo apt install brave-browser
+}
+
+installObsidian(){
+	flatpak install flathub md.obsidian.Obsidian;
 }
 
 update
@@ -75,4 +102,6 @@ update
 #installAlacritty
 #installDiscord
 #installExtensionManager
+#installBrave
 #removeSnap
+installObsidian
