@@ -13,6 +13,7 @@ installEssentials(){
 	aptInstall ubuntu-restricted-extras;
 	aptInstall vlc;
 	aptInstall stacer;
+	aptInstall stow;
 }
 
 installChrome(){
@@ -92,7 +93,16 @@ installObsidian(){
 	flatpak install flathub md.obsidian.Obsidian;
 }
 
-update
+installGrapeJuice(){
+	flatpak install flathub net.brinkervii.grapejuice
+}
+
+installCling(){
+	sudo add-apt-repository ppa:ppa-verse/xeus-cling
+	sudo apt install cling
+}
+
+#update
 #installEssentials
 #installChrome
 #installVScode
@@ -104,4 +114,6 @@ update
 #installExtensionManager
 #installBrave
 #removeSnap
-installObsidian
+#installObsidian
+#installGrapeJuice
+installCling
