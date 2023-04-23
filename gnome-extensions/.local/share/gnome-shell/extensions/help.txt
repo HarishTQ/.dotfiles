@@ -1,0 +1,1 @@
+use glib-compile-schemas ~/.local/share/gnome-shell/extensions/<extension directory>/schemas
