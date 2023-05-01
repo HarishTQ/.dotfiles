@@ -2,45 +2,39 @@
 
 # Helper Functions
 
-update() { sudo apt update && sudo apt upgrade; }
-aptInstall(){ sudo apt install "$1"; }
+update() { sudo dnf update && sudo dnf upgrade; }
+Install(){ sudo dnf install "$1"; }
 
 installEssentials(){
-	aptInstall curl;
-	aptInstall wget;
-	aptInstall git;
-	aptInstall gnome-tweaks;
-	aptInstall ubuntu-restricted-extras;
-	aptInstall vlc;
-	aptInstall stacer;
-	aptInstall stow;
+	Install curl;
+	Install wget;
+	Install git;
+	Install gnome-tweaks;
+	Install vlc;
+	Install stacer;
+	Install stow;
+	Install timeshift;
 }
 
 installChrome(){
-	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
-	aptInstall ./google-chrome-stable_current_amd64.deb
+	wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm;
+	Install ./google-chrome-stable_current_x86_64.rpm
 }
 
 installVScode(){
-	wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-	sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
-	sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
-	rm -f packages.microsoft.gpg
-	aptInstall apt-transport-https
-	update
-	aptInstall code
+	sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+	sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
+	dnf check-update
+	Install code
 }
 
 installSpotify(){
-	curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
-	echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
-	sudo apt-get update && sudo apt-get install spotify-client
+	flatpak install flathub com.spotify.Client
 }
 
 setupFlatpak(){
-	aptInstall flatpak
-	aptInstall gnome-software-plugin-flatpak
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+	flatpak install flathub com.github.tchx84.Flatseal
 }
 
 installGithubDesktop(){
@@ -50,7 +44,7 @@ installGithubDesktop(){
 installAlacritty(){
 	update;
 	sudo add-apt-repository ppa:aslatter/ppa -y;
-	aptInstall alacritty;
+	Install alacritty;
 }
 
 installDiscord(){
@@ -77,18 +71,6 @@ removeSnap(){
 	sudo rm -rf /var/lib/snapd
 }
 
-installBrave(){
-	sudo apt install curl
-
-	sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-
-	echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-
-	sudo apt update
-
-	sudo apt install brave-browser
-}
-
 installObsidian(){
 	flatpak install flathub md.obsidian.Obsidian;
 }
@@ -97,17 +79,16 @@ installGrapeJuice(){
 	flatpak install flathub net.brinkervii.grapejuice
 }
 
-installCling(){
-	sudo add-apt-repository ppa:ppa-verse/xeus-cling
-	sudo apt install cling
+installLunaClient(){
+	flatpak install flathub com.lunarclient.LunarClient
 }
 
 #update
 #installEssentials
+#setupFlatpak
 #installChrome
 #installVScode
 #installSpotify
-#setupFlatpak
 #installGithubDesktop
 #installAlacritty
 #installDiscord
@@ -116,4 +97,4 @@ installCling(){
 #removeSnap
 #installObsidian
 #installGrapeJuice
-installCling
+installLunaClient
