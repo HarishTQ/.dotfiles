@@ -31,6 +31,7 @@ installVScode(){
 	aptInstall code
 }
 
+
 installSpotify(){
 	curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
 	echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
@@ -41,6 +42,7 @@ setupFlatpak(){
 	aptInstall flatpak
 	aptInstall gnome-software-plugin-flatpak
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+	flatpak install flathub com.github.tchx84.Flatseal
 }
 
 installGithubDesktop(){
@@ -77,29 +79,12 @@ removeSnap(){
 	sudo rm -rf /var/lib/snapd
 }
 
-installBrave(){
-	sudo apt install curl
-
-	sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-
-	echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-
-	sudo apt update
-
-	sudo apt install brave-browser
-}
-
 installObsidian(){
 	flatpak install flathub md.obsidian.Obsidian;
 }
 
-installGrapeJuice(){
-	flatpak install flathub net.brinkervii.grapejuice
-}
-
-installCling(){
-	sudo add-apt-repository ppa:ppa-verse/xeus-cling
-	sudo apt install cling
+installI3(){
+	aptInstall i3
 }
 
 #update
@@ -112,8 +97,5 @@ installCling(){
 #installAlacritty
 #installDiscord
 #installExtensionManager
-#installBrave
 #removeSnap
 #installObsidian
-#installGrapeJuice
-installCling
